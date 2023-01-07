@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <form id="form2" enctype="multipart/form-data">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand" href="#">Registeration</a>
+            <a class="navbar-brand" href="/user/login" style="margin-left:10%;">login</a>
+        </nav>
+        <div class="nav justify-content-center">
+            <div class="card nav justify-content-center" style="width: 24rem; margin-top:7%;">
+                <div class="card-body text-center">
+
+                    <label for="first_name"> Enter First Name: </label>
+                    <input type="text" name="first_name" id="first_name" class="form-control">
+
+                    <label for="last_name"> Enter Last Name: </label>
+                    <input type="text" name="last_name" id="last_name" class="form-control">
+
+                    <label for="number"> Enter Number: </label>
+                    <input type="number" id="number" name="number" class="form-control" minlength="10" maxlength="10">
+
+                    <label for="email"> Enter Email: </label>
+                    <input type="email" id="email" name="email" class="form-control">
+
+                    <label for="select"> Select Gender: </label><br>
+                    <input type="radio" id="male" name="gender" class="mygroup" value="Male">
+                      <label for="html">Male</label>
+                      <input type="radio" id="female" name="gender" class="mygroup" value="Female">
+                      <label for="css">Female</label>
+                      <input type="radio" id="trans" name="gender" class="mygroup" value="Trans">
+                      <label for="trans">Trans</label><br>
+                    <label for="gender" class="error"></label>
+
+                    <label for="address"> Address: </label>
+                    <input type="text" id="address" name="address" class="form-control" rows="3" cols="28"
+                        minlength="10" maxlength="250">
+
+                    <label for="password"> Enter Password: </label>
+                    <input type="password" id="password" name="password" class="form-control" minlength="6"
+                        maxlength="20">
+
+                    <label for="cpassword"> Confirm Password: </label>
+                    <input type="password" id="cpassword" name="cpassword" class="form-control" minlength="6"
+                        maxlength="20">
+
+
+                    <label for="profile"> profile: </label>
+                    <input type="file" name="file" id="file" class="form-control" accept="image/*"
+                        class="form-control"><br>
+
+                    <input type="submit" class="btn btn-success" id="upload" name="upload">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="para"></div>
+        <div class="nav justify-content-center img">
+        </div>
+        <script src="/jquery/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $.validator.setDefaults({
+                    submitHandler: function (form) {
+                        //alert("submitted")
+                    }
+                });
+
+                $("#form2").validate({
+                    rules: {
+                        first_name: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 30
+                        },
+                        last_name: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 30
+                        },
+                        number: {
+                            required: true,
+                            minlength: 10,
+                            maxlength: 10
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        gender: {
+                            required: true
+                        },
+
+                        address: {
+                            required: true,
+                            minlength: 10,
+                            maxlength: 250
+                        },
+                        password: {
+                            required: true,
+                            minlength: 6,
+                            maxlength: 20
+                        },
+                        cpassword: {
+                            required: true,
+                            minlength: 6,
+                            maxlength: 20,
+                            equalTo: "#password"
+                        },
+                        file: {
+                            required: true,
+                            extension: "jpg|jpeg|png|ico|bmp"
+                        }
+                    },
+                    messages: {
+                        first_name: {
+                            required: "Enter your name*",
+                            minlength: "Minimum length 3 chars*",
+                            maxlength: "Maximum length 30 chars*"
+                        },
+                        last_name: {
+                            required: "Enter your last name*",
+                            minlength: "Minimum length 1 chars*",
+                            maxlength: "Maximum length 30 chars*"
+                        },
+                        number: {
+                            required: "Enter your Phone number*",
+                            minlength: "Enter 10 digit number*",
+                            maxlength: "Enter 10 digit number*"
+                        },
+                        email: {
+                            required: "Enter your email*",
+                            email: "Enter valid email*"
+                        },
+                        gender: {
+                            required: "Please Select one*",
+                        },
+
+                        address: {
+                            required: "Enter your address*",
+                            minlength: "Enter minimum 10 characters*",
+                            maxlength: "Enter maximum 250 characters*"
+                        },
+                        password: {
+                            required: "Enter your password*",
+                            minlength: "Enter minimum 6 letters*",
+                            maxlength: "Enter maximum 20 letters*"
+                        },
+                        cpassword: {
+                            required: "Re enter your  password*",
+                            minlength: "Enter minimum 6 letters*",
+                            maxlength: "Enter maximum 20 letters*",
+                            equalTo: "Mismatched*"
+                        },
+                        file: {
+                            required: "Please upload file*",
+                            extension: "Please upload valid file*"
+                        }
+                    },
+
+                    submitHandler: function (form) {
+
+                        var form;
+                        var formData;
+                        $('#upload').click(function () {
+                            form = document.getElementById('form2');
+                            formData = new FormData(form);
+                            // var formData = new FormData($(this)[0]);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'http://localhost:8080/',
+                                data: formData,
+                                contentType: false,
+                                processData: false
+                            }).done(function (data) {
+                                //print response on success
+                                alert('uploaded');
+                                console.log(data);
+
+                            }).fail(function (data) {
+                                alert('failed');
+                                console.log('Error');
+                            });
+                            //e.preventDefault(); 
+
+                        });// #upload button ends
+
+                    }// submit handler ends
+
+                });//validation ends
+
+            });//document ends
+
+
+            //email verification
+            $('#email').on("change", function () {
+                var email = $("#email").val();
+                //var password = $("#password").val();
+                $.ajax({
+                    method: "post",
+                    url: "http://localhost:8080/user/emailCheck",
+                    dataType: "JSON",
+                    data: { 'email': email },
+                    success: function (response) {
+                        if (response.msg == "success") {
+                            alert('this email already exists');
+                            //$('#file').val('');
+                            document.getElementById("email").value = "";
+                        }
+                        else {
+                            alert('email is ok');
+                        }
+                    },
+                    error: function () {
+                        alert(' some thing happened with response...');
+                    }
+
+                });//ajax ends
+
+            });
+        </script>
+
+    </form>
+</body>
+
+</html>
