@@ -5,8 +5,9 @@ const multer = require('multer')
 
 exports.productDashboard = function (req, res) {
     console.log("this is add product");
-    var data = req.body.data;
-    console.log("coming data:", data)
+    var data = req.body.pageindex;
+    var pagesize = req.body.pagesize;
+    console.log("coming pageindex:", data)
 
 
     var querytotal = "SELECT COUNT(*) AS count FROM addProduct";
@@ -18,33 +19,30 @@ exports.productDashboard = function (req, res) {
         if (result.length > 0) {
             totolcount = result[0].count;
             console.log("total count 1 :", totolcount);
-            // res.json({
-            //     data: result
-            // });
         }
         console.log("total count 2 :", totolcount);
 
-        var pagesize = 4;
-        var pageindex = req.body.data;
+        pagesize;
+        var pageindex = req.body.pageindex;
         var skip = (pageindex - 1) * pagesize;
         var limit = skip + ',' + pagesize;
 
-        if (data > 0) {
+        if (data > 0 && pagesize > 0) {
             var query = 'SELECT * FROM addProduct ORDER BY id DESC LIMIT ' + limit;
             database.query(query, function (err, result) {
                 if (err) throw err;
 
-                if (result.length > 0) {
+                if (result.length > 0 && pagesize > 0) {
                     console.log("total count 3 :", totolcount);
-                    
-                    var count = Math.ceil(totolcount/4);
+
+                    var count = Math.ceil(totolcount / pagesize);
                     console.log("total divided :", count);
                     res.json({
                         data: result,
                         count: count
                     });
                 }
-                else{
+                else {
                     console.log("no data in that table..!");
                     res.end();
                 }
