@@ -87,12 +87,15 @@
             console.log("coming pageindex:", pageindex);
             console.log("coming pagesize:", pagesize);
             //
-
+            var token = localStorage.getItem('token');
             $.ajax({
                 url: "http://localhost:8080/product/productDashboard",
                 method: "POST",
                 data: { pageindex: pageindex, pagesize: pagesize },
                 dataType: "JSON",
+                headers: {
+                    'deCodedToken': token
+                },
                 success: function (response) {
                     var html = '';
                     var html1 = '';
