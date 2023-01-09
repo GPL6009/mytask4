@@ -7,10 +7,16 @@ exports.productDashboard = function (req, res) {
     console.log("this is add product");
     var data = req.body.pageindex;
     var pagesize = req.body.pagesize;
-    console.log("coming pageindex:", data)
+    console.log("coming pageindex:", data);
 
+    //
+    const token = req.headers['decodedtoken'];
+    var decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    var userId = decoded.id;
+    console.log("particular user:", userId);
+    //
 
-    var querytotal = "SELECT COUNT(*) AS count FROM addProduct";
+    var querytotal = 'SELECT COUNT(*) AS count FROM addProduct WHERE userId = "' + userId + '"';
     database.query(querytotal, function (err, result) {
         if (err) throw err;
 
@@ -18,7 +24,6 @@ exports.productDashboard = function (req, res) {
 
         if (result.length > 0) {
             totolcount = result[0].count;
-            console.log("total count 1 :", totolcount);
         }
         console.log("total count 2 :", totolcount);
 
@@ -28,13 +33,11 @@ exports.productDashboard = function (req, res) {
         var limit = skip + ',' + pagesize;
 
         if (data > 0 && pagesize > 0) {
-            var query = 'SELECT * FROM addProduct ORDER BY id DESC LIMIT ' + limit;
+            var query = 'SELECT * FROM addProduct WHERE userId = "' + userId + '" ORDER BY id DESC LIMIT ' + limit;
             database.query(query, function (err, result) {
                 if (err) throw err;
 
                 if (result.length > 0 && pagesize > 0) {
-                    console.log("total count 3 :", totolcount);
-
                     var count = Math.ceil(totolcount / pagesize);
                     console.log("total divided :", count);
                     res.json({
@@ -62,7 +65,7 @@ exports.productDashboard = function (req, res) {
 //adding products
 exports.addProduct = function (req, res) {
     console.log("this is product Details");
-
+    
     var transName;
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -85,6 +88,11 @@ exports.addProduct = function (req, res) {
             console.log("There was an error uploading the image.");
         }
         else {
+            const token = req.headers['decodedtoken'];
+            var decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+            var userId = decoded.id;
+            console.log("particular user:", userId);
+
             var title = req.body.title;
             var description = req.body.description;
             //var pImage = req.body.pImage;
@@ -93,8 +101,8 @@ exports.addProduct = function (req, res) {
 
             var query = `
 INSERT INTO addProduct 
-(productTitle, description, image, price ) 
-VALUES ("${title}", "${description}", "${pImage}", "${price}" )
+(userId, productTitle, description, image, price ) 
+VALUES ("${userId}", "${title}", "${description}", "${pImage}", "${price}" )
 `;
 
             database.query(query, function (err, result) {
@@ -111,12 +119,11 @@ VALUES ("${title}", "${description}", "${pImage}", "${price}" )
                 else {
 
                     console.log("rows are inserted");
-                    var message = "success";
+                    //var message = "success";
                     res.json({
                         data: true
                     });
                 }
-                //res.send(console.log('wow you done..!'));
 
             });
         }//else ends
