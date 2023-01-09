@@ -21,11 +21,18 @@
                 <div class="card-body text-center">
                     <button type="button" onclick="" id="addProduct" class="form-control">Add Product</button>
                 </div>
-                
+
+                <div>
+                    <select name="pagesize" id="pagesize" onChange="load_data()">
+                        <option value="4">4</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+
                 <div id="dynamicbutton">
-
                     <div>
-
                     </div>
                 </div>
 
@@ -46,43 +53,45 @@
     </form>
 
     <script src="/jquery/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
     <script>
-        //let varName = document.getElementById("two").value;
-        // $('#one').click(function () {
-        //     var value = $("#one").val();
-        //     console.log("value:", value);
-        // });
-
 
         $(document).ready(function () {
-            var clicked_value = 1 ;
-            load_data(clicked_value);
+            load_data();
+            //load_data(clicked_value);
             if (localStorage.getItem('token')) {
             }
             else {
                 alert("you have to login first..!");
                 location.href = "http://localhost:8080/user/login";
             }
-
-            //
-
-            //
         });
 
-        function load_data(clicked_value) {
-            //alert(clicked_value);
-            data = clicked_value;
+        var pagesize = 4;
+        var skiprecords = 1;
 
-            console.log("coming data:", data);
+        function load_data1(skiprecords1) {
+            skiprecords = skiprecords1;
+            load_data();
+            skiprecords = 1;
+        }
+
+        function load_data() {
+            //alert(clicked_value);
+            var pageindex = skiprecords;
+            pagesize = document.getElementById("pagesize").value;
+
+            console.log("coming pageindex:", pageindex);
+            console.log("coming pagesize:", pagesize);
             //
-            //return
+
             $.ajax({
                 url: "http://localhost:8080/product/productDashboard",
                 method: "POST",
-                data: { data: data },
+                data: { pageindex: pageindex, pagesize: pagesize },
                 dataType: "JSON",
                 success: function (response) {
                     var html = '';
@@ -105,7 +114,7 @@
                         console.log("total count : ", count)
                         for (var i = 1; i <= count; i++) {
                             html1 += `
-                            <button type="button" onclick="load_data(this.value)" class = "" id = "`+ i + `" value="` + i + `">` + i + ` </button>
+                            <button type="button" onclick="load_data1(this.value)"  class = "mybutton" id = "`+ i + `" value="` + i + `" >` + i + ` </button>
                             `;
                         }
                     }
