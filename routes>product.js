@@ -22,7 +22,7 @@ router.get("/productDashboard", (req, res, next) => {
 });
 
 //
-router.post('/productDashboard', productController.productDashboard);
+router.post('/productDashboard', auth.user, productController.productDashboard);
 
 //
 router.get('/addProduct', (req, res) => {
