@@ -43,6 +43,7 @@
                             <th>Description</th>
                             <th>image</th>
                             <th>Price</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -107,6 +108,7 @@
                         <td>`+ response.data[count].description + `</td>
                         <td><img src="http://localhost:8080/uploads/`+ response.data[count].image + `" alt="shark" width="80" height="70"></td>
                         <td>`+ response.data[count].price + `</td>
+                        <td><button type="button" class="btn btn-warning btn-sm edit" data-id="`+ response.data[count].id + `">Edit</button></td>
                     </tr>
                     `;
                         }
@@ -129,9 +131,14 @@
             });
 
         }
-        //
 
-        //add product
+        //
+        $(document).on('click', '.edit', function () {
+            var editId = $(this).data('id');
+            console.log("edit: ", editId);
+            location.href = "http://localhost:8080/product/editProduct/"+editId;
+        });
+
         document.getElementById("addProduct").onclick = function () {
             location.href = "http://localhost:8080/product/addProduct";
         };
