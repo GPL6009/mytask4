@@ -30,7 +30,24 @@ router.get('/addProduct', (req, res) => {
 });
 
 //
-router.post('/addProduct',auth.user, productController.addProduct);
+router.post('/addProduct', auth.user, productController.addProduct);
 
+//fetch data to edit
+router.post('/editProduct',auth.user, productController.editProduct);
+
+// render edit page
+router.get('/editProduct/:id', (req, res, next) => {
+  //console.log("login success..")
+  console.log("editing id :" + req.params.id);
+  res.sendFile(path.join(__dirname, '..', 'views', 'editProduct.html'));
+});
+
+//editProductmain
+router.post('/editProductmain',auth.user, productController.editProductmain);
+
+// router.post('/editProductmain', (req, res) =>{
+//   var data = req.body.title;
+//   console.log("data:", data);
+// });
 
 module.exports = router;
